@@ -1,5 +1,5 @@
 {
-    "name": "sp/fixture-dumper-bundle",
+    "name": "dag-io/fixture-dumper-bundle",
     "type": "symfony-bundle",
     "description": "Integration of the sp/fixture-dumper library with Symfony2",
     "keywords": ["fixture-dumper", "dump", "fixtures"],
@@ -19,8 +19,14 @@
     "require": {
         "php": ">=5.3.3",
         "symfony/framework-bundle": ">=2.1,<2.4-dev",
-        "sp/fixture-dumper": ">=1.0,<1.1-dev"
+        "dag-io/fixture-dumper": "dev-master"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "git@github.com:dag-io/fixture-dumper.git"
+        }
+    ],
     "config": {
         "bin-dir": "bin"
     },
