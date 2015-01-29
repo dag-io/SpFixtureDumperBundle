@@ -35,6 +35,7 @@ abstract class AbstractDumpCommand extends ContainerAwareCommand
             ->addOption('format', 'f', InputOption::VALUE_REQUIRED, 'The format to use for dumping fixtures', 'class')
             ->addOption('single-file', 'sf', InputOption::VALUE_NONE, 'Whether or not to dump all fixtures in one single file.')
             ->addOption('filter', null, InputOption::VALUE_REQUIRED, 'Filter like Post*')
+            ->addOption('force', null, InputOption::VALUE_NONE, 'Force')
         ;
     }
 
@@ -85,9 +86,12 @@ EOT;
         $generators = $this->getContainer()->get('sp_fixture_dumper.generators_map');
         $options = $this->askForOptions($output, $generators->get($format)->get());
 
-        $dialog = $this->getHelperSet()->get('dialog');
-        if (!$dialog->askConfirmation($output, '<question>Careful, all previously generated fixtures will be overridden. Do you want to continue Y/N ?</question>', false)) {
-            return;
+        $force = $input->getOption('format');
+        if(!$force) {
+            $dialog = $this->getHelperSet()->get('dialog');
+            if (!$dialog->askConfirmation($output, '<question>Careful, all previously generated fixtures will be overridden. Do you want to continue Y/N ?</question>', false)) {
+                return;
+            }
         }
 
         /** @var $handlerRegistry \Sp\FixtureDumper\Converter\Handler\HandlerRegistryInterface */
@@ -113,7 +117,7 @@ EOT;
         $dialog = $this->getHelperSet()->get('dialog');
         $options = array();
         foreach ($generator->getRequiredOptions() as $requiredOption) {
-           $options[$requiredOption] = $dialog->ask($output, sprintf('<question>Please enter a value for the required option "%s": </question>', $requiredOption));
+            $options[$requiredOption] = $dialog->ask($output, sprintf('<question>Please enter a value for the required option "%s": </question>', $requiredOption));
         }
 
         return $options;
