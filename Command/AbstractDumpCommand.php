@@ -34,6 +34,7 @@ abstract class AbstractDumpCommand extends ContainerAwareCommand
             ->addArgument('path', InputArgument::REQUIRED, 'The path where the fixtures should be dumped to.')
             ->addOption('format', 'f', InputOption::VALUE_REQUIRED, 'The format to use for dumping fixtures', 'class')
             ->addOption('single-file', 'sf', InputOption::VALUE_NONE, 'Whether or not to dump all fixtures in one single file.')
+            ->addOption('filter', null, InputOption::VALUE_REQUIRED, 'Filter like Post*')
         ;
     }
 
@@ -96,7 +97,7 @@ EOT;
         $dumper->setDumpMultipleFiles(!$input->getOption('single-file'));
 
         $path = $this->parsePath($input->getArgument('path'));
-        $dumper->dump($path, $format, $options);
+        $dumper->dump($path, $format, $options, $input->getOption('filter'));
     }
 
     /**
