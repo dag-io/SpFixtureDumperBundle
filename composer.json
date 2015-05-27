@@ -19,8 +19,14 @@
     "require": {
         "php": ">=5.3.3",
         "symfony/framework-bundle": "~2.1",
-        "sp/fixture-dumper": "1.1.*@dev"
+        "dag-io/fixture-dumper": "dev-develop"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "git@github.com:dag-io/fixture-dumper.git"
+        }
+    ],
     "config": {
         "bin-dir": "bin"
     },
